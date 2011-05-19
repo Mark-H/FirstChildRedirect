@@ -1,3 +1,6 @@
+Please report bugs & feature requests on Github:
+https://github.com/Mark-H/FirstChildRedirect
+
 ===============================================
 FirstChildRedirect
 Authors:
@@ -5,8 +8,9 @@ Authors:
     Ryan Thrash <ryan@collabpad.com>
     Olivier B. Deland <olivier@conseilsweb.com>
     Shaun McCormick <shaun@collabpad.com>
+    Mark Hamstra <business@markhamstra.nl>
 License: GPL Public Domain
-Version: 2.2
+Version: 2.3
 ===============================================
  
 This snippet redirects to the first child document of a folder in which this

@@ -1,0 +1,5 @@
+Changelog FirstChildRedirect
+
+FirstChildRedirect 2.3-rc
+===============================================
+Refactored for MODX Revolution 2.1.

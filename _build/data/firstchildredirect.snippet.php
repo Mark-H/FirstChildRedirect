@@ -1,12 +1,12 @@
-<?php
 /**
  * @name FirstChildRedirect
  * @author Jason Coward <jason@opengeek.com>
  * @author Ryan Thrash <ryan@vertexworks.com>
  * @author Olivier B. Deland <olivier@conseilsweb.com> Refactored for Revo and
  * added functionnalities
+ * @auhtor Mark Hamstra <business@markhamstra.nl> Refactor for Revo 2.1
  * @license Public Domain
- * @version 2.1
+ * @version 2.3
  * @package firstchildredirect
  *
  * This snippet redirects to the first child document of a folder in which this
@@ -37,34 +37,44 @@
  * Parameters
  */
 /* parent doc */
-$docid = isset ( $docid ) ? $docid : $modx->resource->get('id');
+  $docid = $modx->getOption('docid',$scriptProperties,null);
+  if ($docid === null) { $parent = $modx->resource->get('id'); }
+  else {
+    $parent = $docid;
+  }
 
 /* default doc in case there's no children
  * can be an id or one of: site_start, site_unavailable_page, error_page,
  * unauthorized_page
  * Default is site_start
  */
-$default = isset( $default ) ? $default : $modx->getOption('site_start',null,1);
-if (in_array($default,array('site_start','site_unavailable_page','error_page','unauthorized_page'))) {
+  $default = $modx->getOption('default',$scriptProperties,'site_start');
+  if (in_array($default,array('site_start','site_unavailable_page','error_page','unauthorized_page'))) {
     $default = $modx->getOption($default,null,1);
-} else {
-    $default = intval($default);
-}
+  } else {
+    if (is_numeric($default)) { $default = (int)$default; }
+    else { return 'Invalid &default property.'; }
+  }
 
 /* sort list */
-$sortBy = isset( $sortBy ) ? $sortBy : 'menuindex';
-
+  $sortBy = $modx->getOption('sortBy',$scriptProperties,'menuindex');
 /* sort dir */
-$sortDir = isset( $sortDir ) && $sortDir == 'DESC' ? $sortDir : 'ASC';
+  $sortDir = $modx->getOption('sortDir',$scriptProperties,'ASC');
 
 /*
  * Execute
  */
-/* Get children sorted
- * FIXME: getActiveChildren is depecrated in 1.0
- */
-$children= $modx->getActiveChildren($docid, $sortBy, $sortDir);
-$targetid = isset ( $children[0]['id'] ) ? $children[0]['id'] : $default;
-$url = $modx->makeUrl($targetid,'','','full');
+  $c = $modx->newQuery('modResource');
+  $c->limit(1);
+  $c->sortby($sortBy,'asc');
+  $c->where(array(
+    'published' => 1,
+    'parent' => $parent));
+  $children = $modx->getObject('modResource',$c);
+  if (!empty($children)) {
+    $url = $modx->makeUrl($children->get('id'));
+    return $modx->sendRedirect($url);
+  }
 
-return $modx->sendRedirect($url);
+  // If it got here, there obviously weren't any children resources.. redirect to default.
+  return $modx->sendRedirect($modx->makeUrl($default));

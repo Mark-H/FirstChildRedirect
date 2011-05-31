@@ -66,7 +66,7 @@
  */
   $c = $modx->newQuery('modResource');
   $c->limit(1);
-  $c->sortby($sortBy,'asc');
+  $c->sortby($sortBy,$sortDir);
   $c->where(array(
     'published' => 1,
     'parent' => $parent));

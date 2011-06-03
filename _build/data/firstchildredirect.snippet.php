@@ -4,7 +4,7 @@
  * @author Ryan Thrash <ryan@vertexworks.com>
  * @author Olivier B. Deland <olivier@conseilsweb.com> Refactored for Revo and
  * added functionnalities
- * @auhtor Mark Hamstra <business@markhamstra.nl> Refactor for Revo 2.1
+ * @author Mark Hamstra <business@markhamstra.nl> Refactor for Revo 2.1
  * @license Public Domain
  * @version 2.3
  * @package firstchildredirect

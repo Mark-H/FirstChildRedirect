@@ -14,7 +14,7 @@ set_time_limit(0);
 define('PKG_NAME','FirstChildRedirect');
 define('PKG_NAME_LOWER','firstchildredirect');
 define('PKG_VERSION','2.3.0');
-define('PKG_RELEASE','rc');
+define('PKG_RELEASE','pl');
 
 /* define build paths */
 $root = dirname(dirname(__FILE__)).'/';

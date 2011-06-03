@@ -1,5 +1,9 @@
 Changelog FirstChildRedirect
 
-FirstChildRedirect 2.3-rc
-===============================================
+| FirstChildRedirect 2.3.0-pl
+=============================
+#1 Fix hardcoded sortDir param
+
+| FirstChildRedirect 2.3.0-rc
+=============================
 Refactored for MODX Revolution 2.1.

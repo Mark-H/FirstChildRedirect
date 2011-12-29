@@ -1,10 +1,11 @@
+<?php
 /**
  * @name FirstChildRedirect
  * @author Jason Coward <jason@opengeek.com>
  * @author Ryan Thrash <ryan@vertexworks.com>
  * @author Olivier B. Deland <olivier@conseilsweb.com> Refactored for Revo and
  * added functionnalities
- * @author Mark Hamstra <business@markhamstra.nl> Refactor for Revo 2.1
+ * @author Mark Hamstra <hello@markhamstra.com> Refactor for Revo 2.1
  * @license Public Domain
  * @version 2.3
  * @package firstchildredirect
@@ -32,6 +33,9 @@
  * &sortDir=`DESC` (optional; default:ASC)
  * Sort `ASC` for ascendant or `DESC` for descendant
  */
+/* @var modX $modx
+ * @var array $scriptProperties
+ */ 
 
 /*
  * Parameters
@@ -70,6 +74,8 @@
   $c->where(array(
     'published' => 1,
     'parent' => $parent));
+
+  /* @var modResource $children */
   $children = $modx->getObject('modResource',$c);
   if (!empty($children)) {
     $url = $modx->makeUrl($children->get('id'));
@@ -78,3 +84,5 @@
 
   // If it got here, there obviously weren't any children resources.. redirect to default.
   return $modx->sendRedirect($modx->makeUrl($default));
+
+?>

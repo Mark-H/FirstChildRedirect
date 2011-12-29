@@ -41,48 +41,56 @@
  * Parameters
  */
 /* parent doc */
-  $docid = $modx->getOption('docid',$scriptProperties,null);
-  if ($docid === null) { $parent = $modx->resource->get('id'); }
-  else {
+$docid = $modx->getOption('docid',$scriptProperties,null);
+if ($docid === null) { 
+    $parent = $modx->resource->get('id');
+}
+else {
     $parent = $docid;
-  }
+}
 
 /* default doc in case there's no children
  * can be an id or one of: site_start, site_unavailable_page, error_page,
  * unauthorized_page
  * Default is site_start
  */
-  $default = $modx->getOption('default',$scriptProperties,'site_start');
-  if (in_array($default,array('site_start','site_unavailable_page','error_page','unauthorized_page'))) {
+$default = $modx->getOption('default',$scriptProperties,'site_start');
+if (in_array($default,array('site_start','site_unavailable_page','error_page','unauthorized_page'))) {
     $default = $modx->getOption($default,null,1);
-  } else {
-    if (is_numeric($default)) { $default = (int)$default; }
-    else { return 'Invalid &default property.'; }
-  }
+} 
+else {
+    if (is_numeric($default)) { 
+        $default = (int)$default;
+    }
+    else { 
+        return 'Invalid &default property.'; 
+    }
+}
 
 /* sort list */
-  $sortBy = $modx->getOption('sortBy',$scriptProperties,'menuindex');
+$sortBy = $modx->getOption('sortBy',$scriptProperties,'menuindex');
 /* sort dir */
-  $sortDir = $modx->getOption('sortDir',$scriptProperties,'ASC');
+$sortDir = $modx->getOption('sortDir',$scriptProperties,'ASC');
 
 /*
- * Execute
- */
-  $c = $modx->newQuery('modResource');
-  $c->limit(1);
-  $c->sortby($sortBy,$sortDir);
-  $c->where(array(
+* Execute
+*/
+$c = $modx->newQuery('modResource');
+$c->limit(1);
+$c->sortby($sortBy,$sortDir);
+$c->where(array(
     'published' => 1,
-    'parent' => $parent));
+    'parent' => $parent
+));
 
-  /* @var modResource $children */
-  $children = $modx->getObject('modResource',$c);
-  if (!empty($children)) {
+/* @var modResource $children */
+$children = $modx->getObject('modResource',$c);
+if (!empty($children)) {
     $url = $modx->makeUrl($children->get('id'));
     return $modx->sendRedirect($url);
-  }
+}
 
-  // If it got here, there obviously weren't any children resources.. redirect to default.
-  return $modx->sendRedirect($modx->makeUrl($default));
+// If it got here, there obviously weren't any children resources.. redirect to default.
+return $modx->sendRedirect($modx->makeUrl($default));
 
 ?>

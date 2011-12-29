@@ -1,5 +1,9 @@
 Changelog FirstChildRedirect
 
+| FirstChildRedirect 2.3.1-pl (2011-12-29)
+=============================
+#4 Add ability to specify the response (status) code for the redirect through &responseCode
+
 | FirstChildRedirect 2.3.0-pl
 =============================
 #1 Fix hardcoded sortDir param

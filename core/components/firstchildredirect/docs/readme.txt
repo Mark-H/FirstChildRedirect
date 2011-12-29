@@ -8,7 +8,7 @@ Authors:
     Ryan Thrash <ryan@collabpad.com>
     Olivier B. Deland <olivier@conseilsweb.com>
     Shaun McCormick <shaun@collabpad.com>
-    Mark Hamstra <business@markhamstra.nl>
+    Mark Hamstra <hello@markhamstra.com>
 License: GPL Public Domain
 Version: 2.3
 ===============================================
@@ -35,3 +35,6 @@ Can be any valid modx document field name
 
 &sortDir=`DESC` (optional; default:ASC)
 Sort `ASC` for ascendant or `DESC` for descendant 
+
+&responseCode ("301", "302" or the complete response code, eg "HTTP/1.1 302 Moved Temporarily", defaults to 301)
+The responsecode (statuscode) to use for sending the redirect.

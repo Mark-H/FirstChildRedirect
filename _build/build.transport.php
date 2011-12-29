@@ -1,10 +1,24 @@
 <?php
 /*
- * modImport build script
+ * FirstChildRedirect build script
  *
- * @package importx
+ * @package FirstChildRedirect
  * @subpackage build
  */
+
+
+/**
+ * @param string $filename The name of the file.
+ * @return string The file's content
+ * @author splittingred
+ */
+function getSnippetContent($filename = '') {
+    $o = file_get_contents($filename);
+    $o = str_replace('<?php','',$o);
+    $o = str_replace('?>','',$o);
+    $o = trim($o);
+    return $o;
+}
 
 $tstart = explode(' ', microtime());
 $tstart = $tstart[1] + $tstart[0];
@@ -13,7 +27,7 @@ set_time_limit(0);
 /* define package names */
 define('PKG_NAME','FirstChildRedirect');
 define('PKG_NAME_LOWER','firstchildredirect');
-define('PKG_VERSION','2.3.0');
+define('PKG_VERSION','2.3.1');
 define('PKG_RELEASE','pl');
 
 /* define build paths */
@@ -39,6 +53,7 @@ $modx->setLogTarget('ECHO');
 
 $modx->loadClass('transport.modPackageBuilder','',false, true);
 $builder = new modPackageBuilder($modx);
+$builder->directory = dirname(dirname(__FILE__)).'/_packages/';
 $builder->createPackage(PKG_NAME_LOWER,PKG_VERSION,PKG_RELEASE);
 $builder->registerNamespace(PKG_NAME_LOWER,false,true,'{core_path}components/'.PKG_NAME_LOWER.'/');
 
@@ -49,7 +64,7 @@ $category->set('category',PKG_NAME);
 
 /* add snippets */
 $modx->log(modX::LOG_LEVEL_INFO,'Packaging in snippets...');
-$snippetcode = file_get_contents($sources['data'].'firstchildredirect.snippet.php');
+$snippetcode = getSnippetContent($sources['data'].'firstchildredirect.snippet.php');
 $snippet[1] = $modx->newObject('modSnippet');
 $snippet[1]->fromArray(array(
     'id' => 1,

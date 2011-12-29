@@ -32,6 +32,10 @@
  *
  * &sortDir=`DESC` (optional; default:ASC)
  * Sort `ASC` for ascendant or `DESC` for descendant
+ *  
+ * &responseCode ("301", "302" or the complete response code, eg "HTTP/1.1 302 Moved Temporarily", defaults to 301)
+ * The responsecode (statuscode) to use for sending the redirect.
+ * 
  */
 /* @var modX $modx
  * @var array $scriptProperties
@@ -39,8 +43,8 @@
 
 /*
  * Parameters
+ * Parent doc 
  */
-/* parent doc */
 $docid = $modx->getOption('docid',$scriptProperties,null);
 if ($docid === null) { 
     $parent = $modx->resource->get('id');
@@ -49,6 +53,15 @@ else {
     $parent = $docid;
 }
 
+$respcode = $modx->getOption('responseCode',$scriptProperties,'301');
+$rcodes = array(
+    '301' => 'HTTP/1.1 301 Moved Permanently',
+    301 => 'HTTP/1.1 301 Moved Permanently',
+    '302' => 'HTTP/1.1 302 Moved Temporarily',
+    302 => 'HTTP/1.1 302 Moved Temporarily',
+);
+if (isset($rcodes[$respcode])) $respcode = $rcodes[$respcode];
+$respcode = array('responseCode' => $respcode);
 /* default doc in case there's no children
  * can be an id or one of: site_start, site_unavailable_page, error_page,
  * unauthorized_page
@@ -87,10 +100,10 @@ $c->where(array(
 $children = $modx->getObject('modResource',$c);
 if (!empty($children)) {
     $url = $modx->makeUrl($children->get('id'));
-    return $modx->sendRedirect($url);
+    return $modx->sendRedirect($url,$respcode);
 }
 
 // If it got here, there obviously weren't any children resources.. redirect to default.
-return $modx->sendRedirect($modx->makeUrl($default));
+return $modx->sendRedirect($modx->makeUrl($default),$respcode);
 
 ?>

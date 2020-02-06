@@ -32,76 +32,74 @@
  *
  * &sortDir=`DESC` (optional; default:ASC)
  * Sort `ASC` for ascendant or `DESC` for descendant
- *  
+ *
  * &responseCode ("301", "302" or the complete response code, eg "HTTP/1.1 302 Moved Temporarily", defaults to 301)
  * The responsecode (statuscode) to use for sending the redirect.
- * 
+ *
  */
 /* @var modX $modx
  * @var array $scriptProperties
- */ 
+ */
 
 /*
  * Parameters
  * Parent doc 
  */
-$docid = $modx->getOption('docid',$scriptProperties,null);
-if ($docid === null) { 
+$docid = $modx->getOption('docid', $scriptProperties, null);
+if ($docid === null) {
     $parent = $modx->resource->get('id');
-}
-else {
+} else {
     $parent = $docid;
 }
 
-$respcode = (string)$modx->getOption('responseCode',$scriptProperties,'301');
-$rcodes = array(
+$respcode = (string)$modx->getOption('responseCode', $scriptProperties, '301');
+$rcodes = [
     '301' => 'HTTP/1.1 301 Moved Permanently',
     '302' => 'HTTP/1.1 302 Moved Temporarily',
-);
-if (isset($rcodes[$respcode])) $respcode = $rcodes[$respcode];
-$respcode = array('responseCode' => $respcode);
+];
+if (isset($rcodes[$respcode])) {
+    $respcode = $rcodes[$respcode];
+}
+$respcode = ['responseCode' => $respcode];
+
 /* default doc in case there's no children
  * can be an id or one of: site_start, site_unavailable_page, error_page,
  * unauthorized_page
  * Default is site_start
  */
-$default = $modx->getOption('default',$scriptProperties,'site_start');
-if (in_array($default,array('site_start','site_unavailable_page','error_page','unauthorized_page'))) {
-    $default = $modx->getOption($default,null,1);
-} 
-else {
-    if (is_numeric($default)) { 
+$default = $modx->getOption('default', $scriptProperties, 'site_start');
+if (in_array($default, ['site_start', 'site_unavailable_page', 'error_page', 'unauthorized_page'])) {
+    $default = $modx->getOption($default, null, 1);
+} else {
+    if (is_numeric($default)) {
         $default = (int)$default;
-    }
-    else { 
-        return 'Invalid &default property.'; 
+    } else {
+        return 'Invalid &default property.';
     }
 }
 
 /* sort list */
-$sortBy = $modx->getOption('sortBy',$scriptProperties,'menuindex');
+$sortBy = $modx->getOption('sortBy', $scriptProperties, 'menuindex');
 /* sort dir */
-$sortDir = $modx->getOption('sortDir',$scriptProperties,'ASC');
+$sortDir = $modx->getOption('sortDir', $scriptProperties, 'ASC');
 
 /*
 * Execute
 */
 $c = $modx->newQuery('modResource');
 $c->limit(1);
-$c->sortby($sortBy,$sortDir);
-$c->where(array(
-    'published' => 1,
+$c->sortby($sortBy, $sortDir);
+$c->where([
+    'published' => true,
     'parent' => $parent
-));
+]);
 
-/* @var modResource $children */
-$children = $modx->getObject('modResource',$c);
-if (!empty($children)) {
-    $url = $modx->makeUrl($children->get('id'));
-    return $modx->sendRedirect($url,$respcode);
+/* @var modResource $child */
+$child = $modx->getObject('modResource', $c);
+if ($child) {
+    $url = $modx->makeUrl($child->get('id'));
+    return $modx->sendRedirect($url, $respcode);
 }
 
 // If it got here, there obviously weren't any children resources.. redirect to default.
-return $modx->sendRedirect($modx->makeUrl($default),$respcode);
-
-?>
+return $modx->sendRedirect($modx->makeUrl($default), $respcode);

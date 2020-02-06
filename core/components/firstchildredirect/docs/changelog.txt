@@ -1,15 +1,19 @@
 Changelog FirstChildRedirect
 
+FirstChildRedirect 2.4.0-pl
+=============================
 - Simplify internal logic for response code shortcuts
+- Code style reformat, now requiring at least PHP 5.4 (but really, use 7.1+)
+- Confirmed compatibility with MODX3 alpha2+
 
-| FirstChildRedirect 2.3.1-pl (2011-12-29)
+FirstChildRedirect 2.3.1-pl (2011-12-29)
 =============================
 #4 Add ability to specify the response (status) code for the redirect through &responseCode
 
-| FirstChildRedirect 2.3.0-pl
+FirstChildRedirect 2.3.0-pl
 =============================
 #1 Fix hardcoded sortDir param
 
-| FirstChildRedirect 2.3.0-rc
+FirstChildRedirect 2.3.0-rc
 =============================
 Refactored for MODX Revolution 2.1.

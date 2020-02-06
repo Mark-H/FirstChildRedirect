@@ -1,5 +1,7 @@
 Changelog FirstChildRedirect
 
+- Simplify internal logic for response code shortcuts
+
 | FirstChildRedirect 2.3.1-pl (2011-12-29)
 =============================
 #4 Add ability to specify the response (status) code for the redirect through &responseCode

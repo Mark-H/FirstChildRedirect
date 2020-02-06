@@ -53,12 +53,10 @@ else {
     $parent = $docid;
 }
 
-$respcode = $modx->getOption('responseCode',$scriptProperties,'301');
+$respcode = (string)$modx->getOption('responseCode',$scriptProperties,'301');
 $rcodes = array(
     '301' => 'HTTP/1.1 301 Moved Permanently',
-    301 => 'HTTP/1.1 301 Moved Permanently',
     '302' => 'HTTP/1.1 302 Moved Temporarily',
-    302 => 'HTTP/1.1 302 Moved Temporarily',
 );
 if (isset($rcodes[$respcode])) $respcode = $rcodes[$respcode];
 $respcode = array('responseCode' => $respcode);

@@ -27,7 +27,7 @@ set_time_limit(0);
 /* define package names */
 define('PKG_NAME','FirstChildRedirect');
 define('PKG_NAME_LOWER','firstchildredirect');
-define('PKG_VERSION','2.3.1');
+define('PKG_VERSION','2.4.0');
 define('PKG_RELEASE','pl');
 
 /* define build paths */
